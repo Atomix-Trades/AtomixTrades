@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito Sans', sans-serif;
+}
+body{
+    position: relative;
+    background-color: #333;
+    display:grid;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+}
+
+::selection{
+    color: #ececec;
+    background-color: #333;
+
+}
+.form{
+    position: relative;
+    background: whitesmoke;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: -3px 3px 10px -5px rgba(0, 0, 0, 0.2);
+    padding: 30px 30px;
+    margin: 100px;
+}
+.form h2{
+    font-size: 30px;
+    font-weight: 700;
+}
+.form p{
+    font-size: 14px;
+    padding: 8px;
+}

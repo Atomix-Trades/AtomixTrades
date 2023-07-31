@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="prices.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Payment-Atomix Trades</title>
+
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a class="logo" href="#"><img src="logo_transparent.png" alt="aphex"></a>
+            <nav>
+                <ul>
+                    <li><a href="price1.html">30 days plan</a></li>
+                    <li><a href="price2.html">60 days plan</a></li>
+                    <li><a href="price3.html">90 days plan</a></li>
+                    <li><a href="price4.html">Lifetime plan</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <img src="static\download-removebg-preview.png" alt="">
+    <div>
+        <button class="pay-button">Pay 25 usdt with Metamask</button>
+        <div id="status"></div>
+    </div>
+    <script type="text/javascript">
+        window.addEventListener('load', async () => {
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+                try {
+                    await ethereum.enable();
+                    initPayButton();
+                } catch (err) {
+                    $('#status').html('User denied account access', err);
+                }
+            } else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+                initPayButton();
+            } else {
+                $('#status').html('No Metamask (or other Web3 Provider) installed');
+            }
+        });
+
+        const initPayButton = () => {
+            $('.pay-button').click(() => {
+                const paymentAddress = '0x89b9101B33CD7b974f017e214744174737d427fe';
+                const amountUsdt = 25;
+
+                const usdtContractAddress = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
+                const usdtDecimals = 6;
+
+                const amountWei = (amountUsdt * 10 ** usdtDecimals).toString();
+
+                const usdtContract = new web3.eth.Contract(abi, usdtContractAddress);
+
+                usdtContract.methods.transfer(paymentAddress, amountWei).send((err, transactionHash) => {
+                    if (err) {
+                        console.log('Payment failed', err);
+                        $('#status').html('Payment failed');
+                    } else {
+                        console.log('Payment successful', transactionHash);
+                        $('#status').html('Payment successful');
+                        savePaymentDetails(amountUsdt);
+                    }
+                });
+            });
+        }
+
+        const savePaymentDetails = (amount) => {
+            const paymentDate = new Date().toISOString();
+            const paymentSuccess = true; // Assuming the payment was successful
+
+            // Send payment details to the PHP script using $.post()
+            $.post(window.location.href, {
+                paymentAmount: amount,
+                paymentDate: paymentDate,
+                paymentSuccess: paymentSuccess
+            })
+            .done(function (response) {
+                console.log('Payment details saved:', response);
+                // Redirect to the index.html page or perform any other action
+                window.location.href = 'app.py';
+            })
+            .fail(function (xhr, status, error) {
+                console.log('Error saving payment details:', error);
+            });
+        }
+    </script>
+</body>
+</html>

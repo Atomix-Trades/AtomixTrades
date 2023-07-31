@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trading Bot Status</title>
+    <link rel="stylesheet" href="styles.landingpage.css">
+    <style>
+        body{
+            color: white;
+            text-align: center;
+        }
+        .status {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .running {
+            color: green;
+        }
+        .stopped {
+            color: red;
+        }
+        @media screen and (max-width: 480px) {
+  h1 {
+    font-size: 24px;
+  }
+  
+  form {
+    padding: 0 20px;
+  }
+  
+  label {
+    font-size: 14px;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  select {
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  input[type="submit"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  p {
+    font-size: 12px;
+  }
+}
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+          <a class="logo" href="#"><img src="logo_transparent.png" alt="aphex"></a>
+          <nav>
+            <ul>
+              <li><a href="#Home">Home</a></li>
+              <li><a href="">why Aphex trades?</a></li>
+    
+            </ul>
+          </nav>
+        </div>
+      </header>
+    <h1>Trading Bot Status</h1>
+    <p>Bot Status: <span id="botStatus" class="status"></span></p>
+
+    
+    <script>
+        // Function to fetch the bot status from the server
+        function fetchBotStatus() {
+            // Make an AJAX request to your bot endpoint to get the status
+            // Replace 'YOUR_BOT_ENDPOINT' with the actual URL of your bot.py script
+            fetch('BOT/bot.py')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the status element based on the response
+                    const statusElement = document.getElementById('botStatus');
+                    if (data.running) {
+                        statusElement.textContent = 'Running';
+                        statusElement.classList.add('running');
+                        statusElement.classList.remove('stopped');
+                    } else {
+                        statusElement.textContent = 'Stopped';
+                        statusElement.classList.add('stopped');
+                        statusElement.classList.remove('running');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching bot status:', error);
+                });
+        }
+
+        // Fetch the bot status initially when the page loads
+        fetchBotStatus();
+
+        // Fetch the bot status every few seconds to keep it up to date
+        setInterval(fetchBotStatus, 5000);
+    </script>
+
+    
+</body>
+</html>

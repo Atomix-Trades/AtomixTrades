@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atomix Trades</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        option{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }        
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: Green;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+        @media only screen and (max-width: 480px){
+            /* Additional Code for Smaller Screens */
+form {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: green;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+p {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+        }
+    </style>
+</head>
+<body>
+    <h1>Trading Bot</h1>
+    <form method="POST">
+        <label for="exchange_id">Exchange:</label>
+        <select name="exchange_id" required>
+          {% for exchange in exchanges %}
+            <option value="{{ exchange }}">{{ exchange }}</option>
+          {% endfor %}
+        </select><br><br>
+        
+        <label for="api_key">email:</label>
+        <input type="text" name="email" required><br><br>
+
+        <label for="api_key">API Key:</label>
+        <input type="text" name="api_key" required><br><br>
+        
+        <label for="secret">Secret:</label>
+        <input type="text" name="secret" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" name="password" ><br><br>
+        
+        <label for="asset_name">Asset Name:</label>
+        <input type="text" name="asset_name" required><br><br>
+        
+        <label for="trade_type">Trade Type:</label>
+        <input type="text" name="trade_type" required><br><br>
+        
+        <label for="trade_size">Trade Size:</label>
+        <input type="text" name="trade_size" required><br><br>
+        
+        <label for="timeframe">Timeframe:</label>
+        <input type="text" name="timeframe" required><br><br>
+        
+        <label for="indicator">Indicator:</label>
+        <select name="indicator" required>
+            <option value="rsi">RSI(recommended)</option>
+            <option value="macd">MACD(recommended)</option>
+            <option value="bollinger">Bollinger Bands</option>
+            <option value="sma">SMA</option>
+            <option value="ema">EMA</option>
+        </select><br><br>
+        <p>Please fill the right API key, Secret key, and password, otherwise the bot will not start and make sure you have sufficient balance in your account</p>
+        <input type="submit" value="Start Bot">
+    </form>
+</body>
+</html>
